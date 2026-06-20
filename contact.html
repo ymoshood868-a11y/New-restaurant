@@ -174,17 +174,33 @@
                     </div>
                     <input type="email" class="form-input" placeholder="Email Address" required>
                     <input type="tel" class="form-input" placeholder="Phone (optional)">
-                    <select class="form-input">
-                        <option value="" disabled selected>Subject</option>
-                        <option>General Enquiry</option>
-                        <option>Reservation Assistance</option>
-                        <option>Private Event &amp; Bespoke Dining</option>
-                        <option>Wine &amp; Sommelier Consultation</option>
-                        <option>Gift Vouchers &amp; Experiences</option>
-                        <option>Press &amp; Media Relations</option>
-                        <option>Feedback &amp; Compliments</option>
-                        <option>Careers at AURUM</option>
-                    </select>
+                    <div class="custom-select" id="cs-subject">
+                        <select class="select-hidden" name="subject"></select>
+                        <button type="button" class="custom-select-trigger" onclick="toggleSelect('cs-subject')">
+                            <span class="cs-display cs-placeholder">— Select a subject —</span>
+                            <svg class="custom-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                        </button>
+                        <div class="custom-select-dropdown">
+                            <div class="custom-select-option cs-disabled">— Select a subject —</div>
+                            <div class="custom-select-option" data-value="General Enquiry">General Enquiry</div>
+                            <div class="custom-select-option" data-value="Reservation Assistance">Reservation Assistance
+                            </div>
+                            <div class="custom-select-option" data-value="Private Event & Bespoke Dining">Private Event
+                                &amp; Bespoke Dining</div>
+                            <div class="custom-select-option" data-value="Wine & Sommelier Consultation">Wine &amp;
+                                Sommelier Consultation</div>
+                            <div class="custom-select-option" data-value="Gift Vouchers & Experiences">Gift Vouchers
+                                &amp; Experiences</div>
+                            <div class="custom-select-option" data-value="Press & Media Relations">Press &amp; Media
+                                Relations</div>
+                            <div class="custom-select-option" data-value="Feedback & Compliments">Feedback &amp;
+                                Compliments</div>
+                            <div class="custom-select-option" data-value="Careers at AURUM">Careers at AURUM</div>
+                        </div>
+                    </div>
                     <textarea class="form-input" rows="4" placeholder="Your message" style="resize:none"
                         required></textarea>
                     <div class="pt-2 space-y-4">
@@ -243,13 +259,16 @@
                         <div class="space-y-1">
                             <div class="flex justify-between font-body text-charcoal-100 text-base">
                                 <span>Lunch</span><span style="color:rgba(201,169,110,.8)">Tue&ndash;Fri
-                                    &nbsp;12:00&ndash;2:30 PM</span></div>
+                                    &nbsp;12:00&ndash;2:30 PM</span>
+                            </div>
                             <div class="flex justify-between font-body text-charcoal-100 text-base">
                                 <span>Dinner</span><span style="color:rgba(201,169,110,.8)">Tue&ndash;Sat
-                                    &nbsp;6:00&ndash;10:30 PM</span></div>
+                                    &nbsp;6:00&ndash;10:30 PM</span>
+                            </div>
                             <div class="flex justify-between font-body text-charcoal-100 text-base">
                                 <span>Weekend</span><span style="color:rgba(201,169,110,.8)">11:30 AM&ndash;11:00
-                                    PM</span></div>
+                                    PM</span>
+                            </div>
                         </div>
                     </div>
                 </div>

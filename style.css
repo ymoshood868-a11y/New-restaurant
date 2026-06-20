@@ -762,3 +762,121 @@ textarea.contact-input {
     transform: rotate(360deg);
   }
 }
+
+/* ── Custom Select Dropdowns ── */
+.custom-select {
+  position: relative;
+  width: 100%;
+  user-select: none;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 40px 14px 18px;
+  color: #e8e0d4;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+  transition:
+    border-color 0.3s,
+    background 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.custom-select.open .custom-select-trigger,
+.custom-select-trigger:focus {
+  border-color: rgba(201, 169, 110, 0.5);
+  background: rgba(255, 255, 255, 0.06);
+}
+.custom-select-trigger .cs-placeholder {
+  color: rgba(138, 128, 112, 0.6);
+  font-style: italic;
+}
+.custom-select-arrow {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: rgba(201, 169, 110, 0.6);
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.3s;
+  pointer-events: none;
+  margin-left: auto;
+}
+.custom-select.open .custom-select-arrow {
+  transform: rotate(180deg);
+  color: #c9a96e;
+}
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  right: 0;
+  background: #111;
+  border: 1px solid rgba(201, 169, 110, 0.2);
+  border-top: 2px solid #c9a96e;
+  z-index: 9999;
+  max-height: 260px;
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition:
+    opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201, 169, 110, 0.3) transparent;
+}
+.custom-select.open .custom-select-dropdown {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.custom-select-option {
+  padding: 12px 18px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1rem;
+  color: rgba(232, 224, 212, 0.75);
+  cursor: pointer;
+  transition:
+    background 0.18s,
+    color 0.18s,
+    padding-left 0.18s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  letter-spacing: 0.01em;
+}
+.custom-select-option:last-child {
+  border-bottom: none;
+}
+.custom-select-option:hover {
+  background: rgba(201, 169, 110, 0.09);
+  color: #c9a96e;
+  padding-left: 26px;
+}
+.custom-select-option.cs-selected {
+  color: #c9a96e;
+  background: rgba(201, 169, 110, 0.06);
+}
+.custom-select-option.cs-disabled {
+  color: rgba(138, 128, 112, 0.35);
+  font-style: italic;
+  font-size: 0.9rem;
+  cursor: default;
+  padding-left: 18px !important;
+  background: transparent !important;
+  pointer-events: none;
+}
+.select-hidden {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+  width: 0;
+}

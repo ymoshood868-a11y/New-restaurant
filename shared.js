@@ -226,3 +226,41 @@ const videoObserver = new IntersectionObserver(
 );
 
 document.querySelectorAll("video").forEach((v) => videoObserver.observe(v));
+
+/* ── Custom Select Dropdowns ── */
+function toggleSelect(id) {
+  const cs = document.getElementById(id);
+  const isOpen = cs.classList.contains("open");
+  document
+    .querySelectorAll(".custom-select.open")
+    .forEach((el) => el.classList.remove("open"));
+  if (!isOpen) cs.classList.add("open");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".custom-select").forEach((cs) => {
+    cs.querySelectorAll(".custom-select-option:not(.cs-disabled)").forEach(
+      (opt) => {
+        opt.addEventListener("click", () => {
+          const value = opt.dataset.value;
+          const display = cs.querySelector(".cs-display");
+          display.textContent = opt.textContent.trim();
+          display.classList.remove("cs-placeholder");
+          cs.querySelectorAll(".custom-select-option").forEach((o) =>
+            o.classList.remove("cs-selected"),
+          );
+          opt.classList.add("cs-selected");
+          const hidden = cs.querySelector("select.select-hidden");
+          if (hidden) hidden.value = value;
+          cs.classList.remove("open");
+        });
+      },
+    );
+  });
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".custom-select"))
+      document
+        .querySelectorAll(".custom-select.open")
+        .forEach((el) => el.classList.remove("open"));
+  });
+});

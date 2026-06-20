@@ -167,38 +167,73 @@
                     <input type="text" class="form-input" placeholder="Company / Organisation (optional)">
                 </div>
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
-                    <select class="form-input">
-                        <option value="" disabled selected>Type of Event</option>
-                        <option>Wedding &amp; Gala</option>
-                        <option>Corporate Dinner</option>
-                        <option>Private Dining</option>
-                        <option>Birthday Celebration</option>
-                        <option>Engagement Party</option>
-                        <option>Product Launch</option>
-                        <option>Charity Gala</option>
-                        <option>VIP Tasting Experience</option>
-                        <option>Other</option>
-                    </select>
-                    <select class="form-input">
-                        <option value="" disabled selected>Estimated Guests</option>
-                        <option>Up to 10 &mdash; Intimate</option>
-                        <option>10&ndash;20 Guests</option>
-                        <option>20&ndash;50 Guests</option>
-                        <option>50&ndash;100 Guests</option>
-                        <option>100&ndash;200 Guests</option>
-                        <option>200+ &mdash; Full venue buyout</option>
-                    </select>
+                    <div class="custom-select" id="cs-ev-type">
+                        <select class="select-hidden" name="event_type"></select>
+                        <button type="button" class="custom-select-trigger" onclick="toggleSelect('cs-ev-type')">
+                            <span class="cs-display cs-placeholder">— Type of Event —</span>
+                            <svg class="custom-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                        </button>
+                        <div class="custom-select-dropdown">
+                            <div class="custom-select-option cs-disabled">— Type of Event —</div>
+                            <div class="custom-select-option" data-value="Wedding & Gala">Wedding &amp; Gala</div>
+                            <div class="custom-select-option" data-value="Corporate Dinner">Corporate Dinner</div>
+                            <div class="custom-select-option" data-value="Private Dining">Private Dining</div>
+                            <div class="custom-select-option" data-value="Birthday Celebration">Birthday Celebration
+                            </div>
+                            <div class="custom-select-option" data-value="Engagement Party">Engagement Party</div>
+                            <div class="custom-select-option" data-value="Product Launch">Product Launch</div>
+                            <div class="custom-select-option" data-value="Charity Gala">Charity Gala</div>
+                            <div class="custom-select-option" data-value="VIP Tasting Experience">VIP Tasting Experience
+                            </div>
+                            <div class="custom-select-option" data-value="Other">Other</div>
+                        </div>
+                    </div>
+                    <div class="custom-select" id="cs-ev-guests">
+                        <select class="select-hidden" name="event_guests"></select>
+                        <button type="button" class="custom-select-trigger" onclick="toggleSelect('cs-ev-guests')">
+                            <span class="cs-display cs-placeholder">— Estimated Guests —</span>
+                            <svg class="custom-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                        </button>
+                        <div class="custom-select-dropdown">
+                            <div class="custom-select-option cs-disabled">— Estimated Guests —</div>
+                            <div class="custom-select-option" data-value="Up to 10">Up to 10 <span
+                                    style="color:rgba(201,169,110,.5);font-size:.88rem"> — Intimate</span></div>
+                            <div class="custom-select-option" data-value="10-20">10 &ndash; 20 Guests</div>
+                            <div class="custom-select-option" data-value="20-50">20 &ndash; 50 Guests</div>
+                            <div class="custom-select-option" data-value="50-100">50 &ndash; 100 Guests</div>
+                            <div class="custom-select-option" data-value="100-200">100 &ndash; 200 Guests</div>
+                            <div class="custom-select-option" data-value="200+">200+ <span
+                                    style="color:rgba(201,169,110,.5);font-size:.88rem"> — Full venue buyout</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="grid md:grid-cols-2 gap-6 mb-6">
                     <input type="date" class="form-input" style="color-scheme:dark">
-                    <select class="form-input">
-                        <option value="" selected>Budget (optional)</option>
-                        <option>Under $5,000</option>
-                        <option>$5,000 &ndash; $10,000</option>
-                        <option>$10,000 &ndash; $25,000</option>
-                        <option>$25,000 &ndash; $50,000</option>
-                        <option>$50,000+</option>
-                    </select>
+                    <div class="custom-select" id="cs-ev-budget">
+                        <select class="select-hidden" name="event_budget"></select>
+                        <button type="button" class="custom-select-trigger" onclick="toggleSelect('cs-ev-budget')">
+                            <span class="cs-display cs-placeholder">— Budget (optional) —</span>
+                            <svg class="custom-select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8">
+                                <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                        </button>
+                        <div class="custom-select-dropdown">
+                            <div class="custom-select-option cs-selected" data-value="">— Prefer not to say —</div>
+                            <div class="custom-select-option" data-value="Under $5,000">Under $5,000</div>
+                            <div class="custom-select-option" data-value="$5,000-$10,000">$5,000 &ndash; $10,000</div>
+                            <div class="custom-select-option" data-value="$10,000-$25,000">$10,000 &ndash; $25,000</div>
+                            <div class="custom-select-option" data-value="$25,000-$50,000">$25,000 &ndash; $50,000</div>
+                            <div class="custom-select-option" data-value="$50,000+">$50,000+</div>
+                        </div>
+                    </div>
                 </div>
                 <textarea class="form-input mb-8" rows="4" placeholder="Your vision &amp; special requests"></textarea>
                 <button type="submit" class="btn-gold w-full"><span>Submit Enquiry</span></button>
