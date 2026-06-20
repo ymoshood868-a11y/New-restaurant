@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURUM — Michelin Star Luxury Fine Dining</title>
+    <meta name="description"
+        content="AURUM: An extraordinary culinary journey. Michelin-starred fine dining, private events, and curated tasting menus.">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { 300: '#d4b978', 400: '#c9a96e', 500: '#b8944f', DEFAULT: '#c9a96e' },
+                        charcoal: { 100: '#e8e0d4', 200: '#8a8070', 600: '#1a1a1a', 700: '#141414', 800: '#0f0f0f', 900: '#0a0a0a' },
+                        ivory: '#f5f0e8'
+                    },
+                    fontFamily: { display: ['Playfair Display', 'serif'], body: ['Cormorant Garamond', 'serif'], sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+</head>
+
+<body>
+
+    <!-- LOADER -->
+    <div id="loader">
+        <div class="loader-logo">AURUM</div>
+        <div class="loader-line"></div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-[100] transition-all duration-500">
+        <div class="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between h-20">
+            <a href="index.html" class="font-display text-2xl tracking-[.25em] gold-text">AURUM</a>
+            <div class="hidden lg:flex items-center gap-8">
+                <a href="index.html" class="nav-link font-sans text-xs tracking-[.15em] uppercase active">Home</a>
+                <a href="menu.html" class="nav-link font-sans text-xs tracking-[.15em] uppercase">Menu</a>
+                <a href="gallery.html" class="nav-link font-sans text-xs tracking-[.15em] uppercase">Gallery</a>
+                <a href="events.html" class="nav-link font-sans text-xs tracking-[.15em] uppercase">Private Events</a>
+                <a href="contact.html" class="nav-link font-sans text-xs tracking-[.15em] uppercase">Contact</a>
+                <button onclick="openModal('reservationModal')" class="btn-gold ml-4"><span>Reserve
+                        Table</span></button>
+            </div>
+            <button class="lg:hidden text-ivory"
+                onclick="document.querySelector('.mobile-menu').classList.toggle('open')">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div
+        class="mobile-menu fixed inset-0 z-[150] bg-charcoal-900/98 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
+        <button onclick="document.querySelector('.mobile-menu').classList.remove('open')"
+            class="absolute top-6 right-6 text-ivory"><i data-lucide="x" class="w-6 h-6"></i></button>
+        <a href="index.html" class="font-display text-2xl text-ivory hover:text-gold transition-colors">Home</a>
+        <a href="menu.html" class="font-display text-2xl text-ivory hover:text-gold transition-colors">Menu</a>
+        <a href="gallery.html" class="font-display text-2xl text-ivory hover:text-gold transition-colors">Gallery</a>
+        <a href="events.html" class="font-display text-2xl text-ivory hover:text-gold transition-colors">Private
+            Events</a>
+        <a href="contact.html" class="font-display text-2xl text-ivory hover:text-gold transition-colors">Contact</a>
+        <button onclick="openModal('reservationModal');document.querySelector('.mobile-menu').classList.remove('open')"
+            class="btn-gold mt-4"><span>Reserve Table</span></button>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <button class="absolute top-6 right-6 text-ivory" onclick="closeLightbox()"><i data-lucide="x"
+                class="w-8 h-8"></i></button>
+        <video id="lightbox-video" autoplay loop muted playsinline controls></video>
+    </div>
+
+    <!-- RESERVATION MODAL -->
+    <div id="reservationModal" onclick="if(event.target===this)closeModal('reservationModal')">
+        <div class="glass-strong rounded-2xl p-8 md:p-12 w-full max-w-lg mx-4 relative">
+            <button onclick="closeModal('reservationModal')"
+                class="absolute top-4 right-4 text-charcoal-200 hover:text-ivory"><i data-lucide="x"
+                    class="w-5 h-5"></i></button>
+            <h2 class="font-display text-3xl text-ivory tracking-tight mb-2 text-center">Reserve a <span
+                    class="gold-text">Table</span></h2>
+            <div class="gold-line mx-auto mb-8"></div>
+            <form
+                onsubmit="event.preventDefault();closeModal('reservationModal');showToast('Reservation request submitted!')">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <input type="text" placeholder="First Name" class="form-input" required>
+                    <input type="text" placeholder="Last Name" class="form-input" required>
+                </div>
+                <input type="email" placeholder="Email Address" class="form-input mb-4" required>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <input type="date" class="form-input" required>
+                    <input type="time" class="form-input" required>
+                </div>
+                <select class="form-input mb-6">
+                    <option>2 Guests</option>
+                    <option>3 Guests</option>
+                    <option>4 Guests</option>
+                    <option>5 Guests</option>
+                    <option>6+ Guests</option>
+                </select>
+                <button type="submit" class="btn-gold w-full"><span>Confirm Reservation</span></button>
+            </form>
+        </div>
+    </div>
+    <div id="toast"></div>
+
+    <!-- ===== HOME HERO ===== -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div class="hero-video-container">
+            <!-- Hero video loads immediately — it's the first thing the user sees -->
+            <video class="hero-video" autoplay muted loop playsinline preload="auto">
+                <source src="./assets/video/857151-hd_1920_746_30fps.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-gradient-to-b from-charcoal-900/60 via-charcoal-900/30 to-charcoal-900">
+            </div>
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <p class="font-sans text-[.65rem] tracking-[.45em] uppercase text-gold mb-7 reveal"
+                style="letter-spacing:.45em">&#10022; &nbsp;Est. 2019 &nbsp;&middot;&nbsp; Two Michelin Stars
+                &nbsp;&#10022;</p>
+            <h1
+                class="font-display text-5xl md:text-7xl lg:text-[5.5rem] font-semibold tracking-tight text-ivory mb-5 leading-[1.06]">
+                Experience Culinary<br><em class="gold-text">Excellence</em>
+            </h1>
+            <div class="gold-line mx-auto mb-7"></div>
+            <p class="font-body text-xl md:text-2xl text-charcoal-100 max-w-2xl mx-auto mb-10 leading-relaxed"
+                style="font-style:italic">
+                Indulge in a world of exquisite flavors, exceptional service, and unforgettable dining experiences. From
+                carefully crafted dishes to a warm and elegant atmosphere, every moment is designed to delight your
+                senses.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="openModal('reservationModal')" class="btn-gold"><span>Reserve Your
+                        Table</span></button>
+                <a href="menu.html" class="btn-outline">Explore Our Menu</a>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce"><i data-lucide="chevron-down"
+                class="w-5 h-5 text-gold"></i></div>
+    </section>
+
+    <!-- STATS -->
+    <section class="py-16 md:py-20 px-6 bg-charcoal-900 border-b border-white/5">
+        <div class="max-w-[1200px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div class="reveal">
+                <p class="font-display text-4xl md:text-5xl gold-text counter" data-target="2">0</p>
+                <p class="font-sans text-xs tracking-[.15em] uppercase text-charcoal-200 mt-2">Michelin Stars</p>
+            </div>
+            <div class="reveal">
+                <p class="font-display text-4xl md:text-5xl gold-text counter" data-target="15">0</p>
+                <p class="font-sans text-xs tracking-[.15em] uppercase text-charcoal-200 mt-2">Years of Excellence</p>
+            </div>
+            <div class="reveal">
+                <p class="font-display text-4xl md:text-5xl gold-text counter" data-target="50">0</p>
+                <p class="font-sans text-xs tracking-[.15em] uppercase text-charcoal-200 mt-2">Curated Wines</p>
+            </div>
+            <div class="reveal">
+                <p class="font-display text-4xl md:text-5xl gold-text counter" data-target="12">0</p>
+                <p class="font-sans text-xs tracking-[.15em] uppercase text-charcoal-200 mt-2">Course Tasting Menu</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PHILOSOPHY -->
+    <section class="py-24 md:py-32 px-6">
+        <div class="max-w-[1400px] mx-auto grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <p class="font-sans text-xs tracking-[.25em] uppercase text-gold mb-4 reveal">Our Philosophy</p>
+                <h2 class="font-display text-4xl md:text-5xl text-ivory tracking-tight mb-6">Crafted with<br><em
+                        class="gold-text">Passion &amp; Precision</em></h2>
+                <div class="gold-line mb-8"></div>
+                <p class="font-body text-lg text-charcoal-100 leading-relaxed mb-6 reveal">At AURUM, we believe dining
+                    is an art form. Every dish is a masterpiece, carefully composed with the finest seasonal ingredients
+                    sourced from around the world.</p>
+                <a href="menu.html" class="btn-outline reveal">Discover More</a>
+            </div>
+            <div class="relative reveal h-[500px] md:h-[600px] rounded-xl overflow-hidden glass-card p-0 border-0">
+                <video class="card-video absolute inset-0" autoplay muted loop playsinline preload="none">
+                    <source data-src="./assets/video/14534903-hd_1920_1080_25fps.mp4" type="video/mp4">
+                </video>
+                <div class="absolute inset-0 bg-gradient-to-t from-charcoal-900/80 to-transparent"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AURUM DIFFERENCE -->
+    <section class="py-24 px-6 bg-charcoal-800">
+        <div class="max-w-[1400px] mx-auto text-center mb-16">
+            <p class="font-sans text-xs tracking-[.25em] uppercase text-gold mb-4 reveal">Why Choose Us</p>
+            <h2 class="font-display text-4xl md:text-5xl text-ivory tracking-tight reveal">The AURUM <em
+                    class="gold-text">Difference</em></h2>
+        </div>
+        <div class="max-w-[1200px] mx-auto grid md:grid-cols-4 gap-8">
+            <div class="glass-card rounded-xl p-8 text-center reveal">
+                <div class="w-14 h-14 mx-auto mb-4 rounded-full border border-gold/30 flex items-center justify-center">
+                    <i data-lucide="leaf" class="w-6 h-6 text-gold"></i>
+                </div>
+                <h3 class="font-display text-xl text-ivory mb-2">Farm-to-Table</h3>
+                <p class="font-body text-charcoal-100 text-sm">Ethically sourced from local artisan farms.</p>
+            </div>
+            <div class="glass-card rounded-xl p-8 text-center reveal">
+                <div class="w-14 h-14 mx-auto mb-4 rounded-full border border-gold/30 flex items-center justify-center">
+                    <i data-lucide="chef-hat" class="w-6 h-6 text-gold"></i>
+                </div>
+                <h3 class="font-display text-xl text-ivory mb-2">Master Chefs</h3>
+                <p class="font-body text-charcoal-100 text-sm">Culinary virtuosos with global experience.</p>
+            </div>
+            <div class="glass-card rounded-xl p-8 text-center reveal">
+                <div class="w-14 h-14 mx-auto mb-4 rounded-full border border-gold/30 flex items-center justify-center">
+                    <i data-lucide="wine" class="w-6 h-6 text-gold"></i>
+                </div>
+                <h3 class="font-display text-xl text-ivory mb-2">Sommelier Service</h3>
+                <p class="font-body text-charcoal-100 text-sm">Expert pairing for every course.</p>
+            </div>
+            <div class="glass-card rounded-xl p-8 text-center reveal">
+                <div class="w-14 h-14 mx-auto mb-4 rounded-full border border-gold/30 flex items-center justify-center">
+                    <i data-lucide="sparkles" class="w-6 h-6 text-gold"></i>
+                </div>
+                <h3 class="font-display text-xl text-ivory mb-2">Artful Plating</h3>
+                <p class="font-body text-charcoal-100 text-sm">Visual masterpieces on every plate.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNATURE DISHES -->
+    <section class="py-24 px-6">
+        <div class="max-w-[1400px] mx-auto text-center mb-16">
+            <p class="font-sans text-xs tracking-[.25em] uppercase text-gold mb-4 reveal">Signature Creations</p>
+            <h2 class="font-display text-4xl md:text-5xl text-ivory tracking-tight reveal">From Our <em
+                    class="gold-text">Kitchen</em></h2>
+        </div>
+        <div class="max-w-[1400px] mx-auto grid md:grid-cols-3 gap-8">
+            <div class="glass-card rounded-xl overflow-hidden reveal h-[500px] border-0 relative group">
+                <video class="card-video absolute inset-0" autoplay muted loop playsinline preload="none">
+                    <source data-src="./assets/video/8477268-hd_1080_1920_24fps.mp4" type="video/mp4">
+                </video>
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500">
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
+                    <p class="font-sans text-xs tracking-[.15em] uppercase text-gold mb-2">Main Course</p>
+                    <h3 class="font-display text-xl text-ivory mb-2">A5 Wagyu Tenderloin</h3>
+                    <p class="font-body text-charcoal-100 text-sm">Dry-aged 45 days, truffle jus</p>
+                </div>
+            </div>
+            <div class="glass-card rounded-xl overflow-hidden reveal h-[500px] border-0 relative group">
+                <video class="card-video absolute inset-0" autoplay muted loop playsinline preload="none">
+                    <source data-src="./assets/video/13611798_1080_1920_29fps.mp4" type="video/mp4">
+                </video>
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500">
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
+                    <p class="font-sans text-xs tracking-[.15em] uppercase text-gold mb-2">Signature</p>
+                    <h3 class="font-display text-xl text-ivory mb-2">Butter Poached Lobster</h3>
+                    <p class="font-body text-charcoal-100 text-sm">Saffron risotto, champagne butter</p>
+                </div>
+            </div>
+            <div class="glass-card rounded-xl overflow-hidden reveal h-[500px] border-0 relative group">
+                <video class="card-video absolute inset-0" autoplay muted loop playsinline preload="none">
+                    <source data-src="./assets/video/6607737-uhd_2160_3410_30fps.mp4" type="video/mp4">
+                </video>
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-500">
+                </div>
+                <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
+                    <p class="font-sans text-xs tracking-[.15em] uppercase text-gold mb-2">Dessert</p>
+                    <h3 class="font-display text-xl text-ivory mb-2">Gold Leaf Souffl&#233;</h3>
+                    <p class="font-body text-charcoal-100 text-sm">Valrhona chocolate, vanilla cr&#232;me</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AMBIENCE PARALLAX -->
+    <section class="relative py-32 md:py-48 flex items-center justify-center overflow-hidden">
+        <div class="hero-video-container">
+            <video class="hero-video" autoplay muted loop playsinline preload="none">
+                <source data-src="./assets/video/16478422-hd_1920_1080_24fps.mp4" type="video/mp4">
+            </video>
+            <div class="absolute inset-0 bg-charcoal-900/70"></div>
+        </div>
+        <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
+            <p class="font-sans text-xs tracking-[.25em] uppercase text-gold mb-4 reveal">The Ambience</p>
+            <h2 class="font-display text-4xl md:text-5xl text-ivory tracking-tight mb-6 reveal">An Unforgettable <em
+                    class="gold-text">Experience</em></h2>
+            <p class="font-body text-lg text-charcoal-100 mb-8 reveal">From the moment you step through our doors, you
+                are transported into a world of elegance, warmth, and culinary brilliance.</p>
+            <a href="gallery.html" class="btn-outline reveal">View Gallery</a>
+        </div>
+    </section>
+
+    <!-- BAR CAROUSEL -->
+    <section class="py-24 px-6 bg-charcoal-800">
+        <div class="max-w-[1400px] mx-auto">
+            <div class="text-center mb-16">
+                <p class="font-sans text-xs tracking-[.25em] uppercase text-gold mb-4 reveal">Curated Libations</p>
+                <h2 class="font-display text-4xl md:text-5xl text-ivory tracking-tight reveal">The <em
+                        class="gold-text">Bar</em></h2>
+            </div>
+            <div class="carousel-container glass-card border-0 rounded-xl reveal">
+                <div class="carousel-track" id="barCarousel">
+                    <div class="carousel-slide">
+                        <video autoplay muted loop playsinline preload="none">
+                            <source data-src="./assets/video/8942664-uhd_2160_4096_25fps.mp4" type="video/mp4">
+                        </video>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent opacity-90">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-10 md:max-w-lg">
+                            <p class="font-sans text-xs tracking-[.15em] uppercase text-gold mb-2">Curated Selection</p>
+                            <h3 class="font-display text-3xl text-ivory mb-3">World-Class Wines</h3>
+                            <p class="font-body text-charcoal-100">Sommelier-chosen vintages from the finest vineyards
+                                across the globe.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <video muted loop playsinline preload="none">
+                            <source data-src="./assets/video/3783137-hd_1920_1080_25fps.mp4" type="video/mp4">
+                        </video>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent opacity-90">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-10 md:max-w-lg">
+                            <p class="font-sans text-xs tracking-[.15em] uppercase text-gold mb-2">Mixology</p>
+                            <h3 class="font-display text-3xl text-ivory mb-3">Artisan Cocktails</h3>
+                            <p class="font-body text-charcoal-100">Handcrafted elixirs designed to tantalize the senses.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <video muted loop playsinline preload="none">
+                            <source data-src="./assets/video/4667164-uhd_4096_2160_25fps.mp4" type="video/mp4">
+                        </video>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-charcoal-900 via-charcoal-900/40 to-transparent opacity-90">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-8 md:p-12 z-10 md:max-w-lg">
+                            <p class="font-sans text-xs tracking-[.15em] uppercase text-gold mb-2">Rare Reserve</p>
+                            <h3 class="font-display text-3xl text-ivory mb-3">Premium Spirits</h3>
+                            <p class="font-body text-charcoal-100">An exclusive collection of aged whiskies and rare
+                                cognacs.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-indicators">
+                    <span class="carousel-indicator active"></span>
+                    <span class="carousel-indicator"></span>
+                    <span class="carousel-indicator"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRESS -->
+    <section class="py-20 px-6 border-b border-white/5">
+        <div class="max-w-[1000px] mx-auto text-center">
+            <p class="font-sans text-xs tracking-[.25em] uppercase text-gold mb-8 reveal">Accolades &amp; Press</p>
+            <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 reveal">
+                <span class="font-display text-2xl text-charcoal-200 tracking-wider">MICHELIN GUIDE</span>
+                <span class="font-display text-2xl text-charcoal-200 tracking-wider">WINE SPECTATOR</span>
+                <span class="font-display text-2xl text-charcoal-200 tracking-wider">FORBES</span>
+                <span class="font-display text-2xl text-charcoal-200 tracking-wider">ROBB REPORT</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-24 px-6">
+        <div class="max-w-[1400px] mx-auto text-center mb-16">
+            <p class="font-sans text-xs tracking-[.25em] uppercase text-gold mb-4 reveal">Guest Reflections</p>
+            <h2 class="font-display text-4xl md:text-5xl text-ivory tracking-tight">Words of <em
+                    class="gold-text">Praise</em></h2>
+        </div>
+        <div class="max-w-[1200px] mx-auto grid md:grid-cols-3 gap-8">
+            <div class="glass-card rounded-xl p-8 reveal">
+                <div class="flex gap-1 mb-4"><i data-lucide="star" class="w-4 h-4 text-gold fill-gold"></i><i
+                        data-lucide="star" class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i></div>
+                <p class="font-body text-lg text-charcoal-100 leading-relaxed mb-6 italic">"The 12-course tasting was a
+                    revelation. Truly the best dining experience of my life."</p>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-display text-gold">
+                        J</div>
+                    <div>
+                        <p class="font-sans text-sm text-ivory">James Richardson</p>
+                        <p class="font-sans text-xs text-charcoal-200">Food Critic</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-xl p-8 reveal">
+                <div class="flex gap-1 mb-4"><i data-lucide="star" class="w-4 h-4 text-gold fill-gold"></i><i
+                        data-lucide="star" class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i></div>
+                <p class="font-body text-lg text-charcoal-100 leading-relaxed mb-6 italic">"From the moment we walked
+                    in, we were transported. The wine pairing was impeccable."</p>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-display text-gold">
+                        S</div>
+                    <div>
+                        <p class="font-sans text-sm text-ivory">Sophia Chen</p>
+                        <p class="font-sans text-xs text-charcoal-200">VIP Guest</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card rounded-xl p-8 reveal">
+                <div class="flex gap-1 mb-4"><i data-lucide="star" class="w-4 h-4 text-gold fill-gold"></i><i
+                        data-lucide="star" class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i><i data-lucide="star"
+                        class="w-4 h-4 text-gold fill-gold"></i></div>
+                <p class="font-body text-lg text-charcoal-100 leading-relaxed mb-6 italic">"An extraordinary evening
+                    from start to finish. AURUM has set a new standard."</p>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center font-display text-gold">
+                        M</div>
+                    <div>
+                        <p class="font-sans text-sm text-ivory">Marcus Veld</p>
+                        <p class="font-sans text-xs text-charcoal-200">Michelin Inspector</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 py-16 px-6">
+        <div class="max-w-[1400px] mx-auto grid md:grid-cols-4 gap-12 mb-12">
+            <div>
+                <h3 class="font-display text-2xl gold-text tracking-[.2em] mb-4">AURUM</h3>
+                <p class="font-body text-charcoal-200 leading-relaxed">Where every bite tells a story.</p>
+            </div>
+            <div>
+                <h4 class="font-sans text-xs tracking-[.15em] uppercase text-ivory mb-4">Navigation</h4>
+                <div class="space-y-2">
+                    <a href="index.html"
+                        class="block font-body text-charcoal-200 hover:text-gold transition-colors">Home</a>
+                    <a href="menu.html"
+                        class="block font-body text-charcoal-200 hover:text-gold transition-colors">Menu</a>
+                    <a href="gallery.html"
+                        class="block font-body text-charcoal-200 hover:text-gold transition-colors">Gallery</a>
+                    <a href="events.html"
+                        class="block font-body text-charcoal-200 hover:text-gold transition-colors">Private Events</a>
+                    <a href="contact.html"
+                        class="block font-body text-charcoal-200 hover:text-gold transition-colors">Contact</a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-sans text-xs tracking-[.15em] uppercase text-ivory mb-4">Hours</h4>
+                <p class="font-body text-charcoal-200">Lunch: Tue&ndash;Fri 12&ndash;2:30 PM</p>
+                <p class="font-body text-charcoal-200">Dinner: Tue&ndash;Sat 6&ndash;10:30 PM</p>
+                <p class="font-body text-charcoal-200">Weekend: 11:30 AM&ndash;11 PM</p>
+            </div>
+            <div>
+                <h4 class="font-sans text-xs tracking-[.15em] uppercase text-ivory mb-4">Newsletter</h4>
+                <form onsubmit="event.preventDefault();showToast('Subscribed!')" class="flex flex-col gap-3">
+                    <input type="email" placeholder="Email" class="form-input text-sm" required>
+                    <button type="submit" class="btn-gold py-3 text-xs"><span>Subscribe</span></button>
+                </form>
+            </div>
+        </div>
+        <div
+            class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5">
+            <p class="font-sans text-xs text-charcoal-200">&copy; 2024 AURUM. All rights reserved.</p>
+            <div class="flex gap-6 mt-4 md:mt-0">
+                <a href="#" class="text-charcoal-200 hover:text-gold transition-colors"><i data-lucide="instagram"
+                        class="w-5 h-5"></i></a>
+                <a href="#" class="text-charcoal-200 hover:text-gold transition-colors"><i data-lucide="facebook"
+                        class="w-5 h-5"></i></a>
+                <a href="#" class="text-charcoal-200 hover:text-gold transition-colors"><i data-lucide="twitter"
+                        class="w-5 h-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="shared.js"></script>
+</body>
+
+</html>
